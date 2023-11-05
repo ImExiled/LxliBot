@@ -1,4 +1,6 @@
+import random
 import discord
+from discord import app_commands
 from discord.ext import commands
 import uuid
 import requests
@@ -16,14 +18,20 @@ for folder in CBotSettings.ArchiveChannels:
         os.mkdir(f"{CBotSettings.ArchiveRoot}/{folder}")
 
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+client = commands.Bot(intents = intents, command_prefix=CBotSettings.CommandSymbol)
 
 @client.event
 async def on_ready():
-    print(f"Bot launched as: {client.user}")
+    print(f"Bot authenticated as: {client.user}")
+    print("Syncing commands...")
+    try:
+        synced = await client.tree.sync()
+        print(f"Synced {len(synced)} command(s)!")
+    except Exception as e:
+        print(f"Error syncing commands: {e}")
 
 @client.event
 async def on_message(message):
@@ -54,10 +62,19 @@ async def on_message(message):
             print("An error occured: " + e)
     if message.author == client.user:
         return
-    #### Call commands here! ####
-    if message.content.startswith(f'{CBotSettings.CommandSymbol}ping'):
-        await message.channel.send("Pong!")
 
+### COMMANDS ###
+
+@client.tree.command(name="hello", description="Say hello!")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message(f"Hey {interaction.user.mention}! Get to gooning already!~", ephemeral=True)
+
+@client.tree.command(name="cunny", description="You like small girls I see~")
+async def cunny(interaction: discord.Interaction, category: str):
+    media = os.listdir(CBotSettings.ArchiveRoot + "/" + category)
+    random_media = random.choice(media)
+    random_media_str = os.path.basename(random_media)
+    await interaction.response.send_message(f"Get nasty!~", file=discord.File(f"{CBotSettings.ArchiveRoot}/{category}/{random_media_str}"))
 
 # Run the bot!
 client.run(f'{CBotSettings.TOKEN}')
