@@ -41,8 +41,6 @@ async def on_message(message):
         try:
             RandomFileName = str(uuid.uuid4())
             SourceChannel = str(message.channel)
-            print(SourceChannel)
-            print(message.attachments[0].content_type)
             if message.attachments[0].content_type == "image/png":
                 await message.attachments[0].save(RandomFileName + ".png")
                 shutil.move(RandomFileName + ".png", CBotSettings.ArchiveRoot + "/" + SourceChannel)
@@ -59,7 +57,8 @@ async def on_message(message):
                 await message.attachments[0].save(RandomFileName + ".gif")
                 shutil.move(RandomFileName + ".gif", CBotSettings.ArchiveRoot + "/" + SourceChannel)
         except Exception as e:
-            print("An error occured: " + e)
+            #print("An error occured: " + e)
+            pass
     if message.author == client.user:
         return
 
@@ -75,6 +74,11 @@ async def cunny(interaction: discord.Interaction, category: str):
     random_media = random.choice(media)
     random_media_str = os.path.basename(random_media)
     await interaction.response.send_message(f"Get nasty!~", file=discord.File(f"{CBotSettings.ArchiveRoot}/{category}/{random_media_str}"), ephemeral=True)
+
+@client.tree.command(name="totals", description="How many are there?!~")
+async def totals(interaction: discord.Interaction):
+    cpt = sum([len(files) for r, d, files in os.walk(f"{CBotSettings.ArchiveRoot}")])
+    await interaction.response.send_message(f"We've archived {cpt} delicious tiny ones in total~")
 
 # Run the bot!
 client.run(f'{CBotSettings.TOKEN}')
