@@ -74,7 +74,7 @@ async def cunny(interaction: discord.Interaction, category: str):
     media = os.listdir(CBotSettings.ArchiveRoot + "/" + category)
     random_media = random.choice(media)
     random_media_str = os.path.basename(random_media)
-    await interaction.response.send_message(f"Get nasty!~", file=discord.File(f"{CBotSettings.ArchiveRoot}/{category}/{random_media_str}"))
+    await interaction.response.send_message(f"Get nasty!~", file=discord.File(f"{CBotSettings.ArchiveRoot}/{category}/{random_media_str}"), ephemeral=True)
 
 # Run the bot!
 client.run(f'{CBotSettings.TOKEN}')
