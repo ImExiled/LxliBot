@@ -12,5 +12,5 @@ class CBotSettings:
         "general",
         "memes"
         ]
-    # If `ArchiveImages` is enabled, should we sort these images by folder?
-    SortArchived = True
+    # Where do we store our images? This MUST have a trailing /
+    ArchiveRoot = "/home/exile/Pictures/CunnyBot"
