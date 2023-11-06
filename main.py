@@ -7,6 +7,7 @@ from discord.ext import commands
 import uuid
 import requests
 import shutil
+import sys
 import os
 from settings import CBotSettings as CBotSettings
 
@@ -33,6 +34,7 @@ def CheckForUpdate():
         stdout, stderr = update.communicate()
         print(stdout)
         print(f"[UPDATER] Update complete! Relaunching")
+        os.execv(sys.argv[0], sys.argv)
 
 CheckForUpdate()
 
