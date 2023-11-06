@@ -18,15 +18,28 @@ def CheckRemote():
     stdout, stderr = process.communicate()
     sha = re.split(r'\t+', stdout.decode('ascii'))[0]
     print(f"[UPDATE CHECK] Latest push hash is {sha}")
+    return sha
 
 def CheckLocal():
     process = subprocess.Popen(["git", "rev-parse", 'HEAD'], stdout=subprocess.PIPE)
     stdout, stderr = process.communicate()
     sha = re.split(r'\t+', stdout.decode('ascii'))[0]
     print(f"[UPDATE CHECK] Latest local hash is {sha}")
+    return sha
 
-CheckRemote()
-CheckLocal()
+def CheckForUpdate():
+    remote = CheckRemote()
+    local = CheckLocal()
+    if remote != local:
+        print(f"[UPDATER] Remote and local do not match! Update available!")
+        update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
+        stdout, stderr = update.communicate()
+        print(stdout)
+    else:
+        print("[UPDATER] No changes found")
+
+CheckForUpdate()
+
 # Init checks to ensure bot functionality.
 if not os.path.isdir(CBotSettings.ArchiveRoot):
     print(f"The archive root ({CBotSettings.ArchiveRoot}) does not exist. Created it!")
