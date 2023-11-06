@@ -36,7 +36,7 @@ CheckForUpdate()
 
 # Init checks to ensure bot functionality.
 if not os.path.isdir(CBotSettings.ArchiveRoot):
-    print(f"The archive root ({CBotSettings.ArchiveRoot}) does not exist. Created it!")
+    print(f"The archive root ({CBotSettings.ArchiveRoot}) does not exist. Created it! :)")
     os.mkdir(CBotSettings.ArchiveRoot)
 for folder in CBotSettings.ArchiveChannels:
     if not os.path.isdir(f"{CBotSettings.ArchiveRoot}/{folder}"):
