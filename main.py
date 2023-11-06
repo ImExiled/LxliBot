@@ -28,12 +28,6 @@ def CheckLocal():
     return sha
 
 def CheckForUpdate():
-    remote = str(CheckRemote())
-    local = str(CheckLocal())
-    if remote.casefold == local.casefold:
-        print("[UPDATER] No changes found")
-    else:
-        print(f"[UPDATER] Remote and local do not match! Update available!")
         update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
         stdout, stderr = update.communicate()
         print(stdout)
