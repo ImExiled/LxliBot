@@ -28,9 +28,11 @@ def CheckLocal():
     return sha
 
 def CheckForUpdate():
+        print(f"[UPDATER] Checking for updates...")
         update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
         stdout, stderr = update.communicate()
         print(stdout)
+        print(f"[UPDATER] Update complete! Relaunching...")
 
 CheckForUpdate()
 
