@@ -30,13 +30,13 @@ def CheckLocal():
 def CheckForUpdate():
     remote = CheckRemote()
     local = CheckLocal()
-    if remote != local:
+    if remote == local:
+        print("[UPDATER] No changes found")
+    else:
         print(f"[UPDATER] Remote and local do not match! Update available!")
         update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
         stdout, stderr = update.communicate()
         print(stdout)
-    else:
-        print("[UPDATER] No changes found")
 
 CheckForUpdate()
 
