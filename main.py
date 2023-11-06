@@ -28,9 +28,9 @@ def CheckLocal():
     return sha
 
 def CheckForUpdate():
-    remote = CheckRemote()
-    local = CheckLocal()
-    if remote == local:
+    remote = str(CheckRemote())
+    local = str(CheckLocal())
+    if remote.casefold == local.casefold:
         print("[UPDATER] No changes found")
     else:
         print(f"[UPDATER] Remote and local do not match! Update available!")
