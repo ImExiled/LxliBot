@@ -34,7 +34,8 @@ def CheckForUpdate():
         stdout, stderr = update.communicate()
         print(stdout)
         print(f"[UPDATER] Update complete! Relaunching...")
-        os.exec(sys.argv[0], sys.argv)
+        #os.exec(sys.argv[0], sys.argv)
+        os.execv(sys.executable, ['python'] + [sys.argv[0], sys.argv])
 
 CheckForUpdate()
 
