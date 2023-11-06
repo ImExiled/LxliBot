@@ -1,5 +1,7 @@
 import random
 import discord
+import subprocess
+import re
 from discord import app_commands
 from discord.ext import commands
 import uuid
@@ -8,6 +10,23 @@ import shutil
 import os
 from settings import CBotSettings as CBotSettings
 
+# Update checks
+
+def CheckRemote():
+    repo_url = "https://github.com/ImExiled/LxliBot.git"
+    process = subprocess.Popen(["git", "ls-remote", repo_url], stdout=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    sha = re.split(r'\t+', stdout.decode('ascii'))[0]
+    print(f"[UPDATE CHECK] Latest push is {sha}")
+
+def CheckLocal():
+    process = subprocess.Popen(["git", "ls-remote", '.'], stdout=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    sha = re.split(r'\t+', stdout.decode('ascii'))[0]
+    print(f"[UPDATE CHECK] Latest local is {sha}")
+
+CheckRemote()
+CheckLocal()
 # Init checks to ensure bot functionality.
 if not os.path.isdir(CBotSettings.ArchiveRoot):
     print(f"The archive root ({CBotSettings.ArchiveRoot}) does not exist. Created it!")
@@ -79,6 +98,18 @@ async def cunny(interaction: discord.Interaction, category: str):
 async def totals(interaction: discord.Interaction):
     cpt = sum([len(files) for r, d, files in os.walk(f"{CBotSettings.ArchiveRoot}")])
     await interaction.response.send_message(f"We've archived {cpt} delicious tiny ones in total~")
+
+# Bug reports!
+@client.tree.command(name="bug", description="Used for bugs and feature requests")
+async def bug(interaction: discord.Interaction):
+    issuesLink = "https://github.com/ImExiled/LxliBot/issues"
+    await interaction.response.send_message(f"Hey there, {interaction.user.mention}! Found a bug, or wanna request a feature? You can do so here: https://github.com/ImExiled/LxliBot/issues")
+# FortuneOne's dedicated command
+#@client.tree.command(name="fo", description="FortuneOne's dedicated command~")
+#async def fo(interaction: discord.Interaction):
+#    category = "incest"
+#    fortune_media = os.listdir(CBotSettings.ArchiveRoot + "/" + category)
+#    await interaction.response.send_message(f"Incest for the wincest~", ephemeral=True, file=discord.File(f"{fortune_media}"))
 
 # Run the bot!
 client.run(f'{CBotSettings.TOKEN}')
