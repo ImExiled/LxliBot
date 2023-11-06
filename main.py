@@ -17,13 +17,13 @@ def CheckRemote():
     process = subprocess.Popen(["git", "ls-remote", repo_url], stdout=subprocess.PIPE)
     stdout, stderr = process.communicate()
     sha = re.split(r'\t+', stdout.decode('ascii'))[0]
-    print(f"[UPDATE CHECK] Latest push is {sha}")
+    print(f"[UPDATE CHECK] Latest push hash is {sha}")
 
 def CheckLocal():
-    process = subprocess.Popen(["git", "ls-remote", '.'], stdout=subprocess.PIPE)
+    process = subprocess.Popen(["git", "rev-parse", 'HEAD'], stdout=subprocess.PIPE)
     stdout, stderr = process.communicate()
     sha = re.split(r'\t+', stdout.decode('ascii'))[0]
-    print(f"[UPDATE CHECK] Latest local is {sha}")
+    print(f"[UPDATE CHECK] Latest local hash is {sha}")
 
 CheckRemote()
 CheckLocal()
