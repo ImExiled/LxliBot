@@ -33,7 +33,6 @@ def CheckForUpdate():
         update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
         stdout, stderr = update.communicate()
         print(stdout)
-        print(f"[UPDATER] Update complete! Remember to relaunch the bot!")
 
 CheckForUpdate()
 
@@ -59,6 +58,7 @@ async def on_ready():
     try:
         synced = await client.tree.sync()
         print(f"Synced {len(synced)} command(s)!")
+        print(f"[STATUS] Launched successfully!")
     except Exception as e:
         print(f"Error syncing commands: {e}")
 
