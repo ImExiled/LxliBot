@@ -33,9 +33,7 @@ def CheckForUpdate():
         update = subprocess.Popen(["git", "pull"], stdout=subprocess.PIPE)
         stdout, stderr = update.communicate()
         print(stdout)
-        print(f"[UPDATER] Update complete! Relaunching...")
-        #os.exec(sys.argv[0], sys.argv)
-        os.execv(sys.executable, ['python'] + [sys.argv[0], sys.argv])
+        print(f"[UPDATER] Update complete! Remember to relaunch the bot!")
 
 CheckForUpdate()
 
