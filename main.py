@@ -9,7 +9,22 @@ import requests
 import shutil
 import sys
 import os
+import sqlite3
 from settings import CBotSettings as CBotSettings
+
+# Check if SqLite db exists
+print(f"[INIT] Checking for SqLite3 Database...")
+if os.path.isfile(f"./{CBotSettings.DbName}"):
+    print(f"[INIT] Database exists!")
+    pass
+else:
+    print(f"[INIT WARN] Database does not exist, created it!")
+    conn = sqlite3.connect(CBotSettings.DbName)
+    c = conn.cursor()
+    c.execute('CREATE TABLE ServerMembers (id INTEGER PRIMARY KEY, name TEXT, password TEXT, discordTag TEXT, verifyCode TEXT, isVerified BOOLEAN)')
+    conn.commit()
+    conn.close()
+    pass
 
 # Update checks
 

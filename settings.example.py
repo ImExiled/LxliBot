@@ -14,3 +14,5 @@ class CBotSettings:
         ]
     # Where do we store our images? This MUST have a trailing /
     ArchiveRoot = "/home/exile/Pictures/CunnyBot"
+    # The name of our database file. Must be store in bot root.
+    DbName = "db.sql"
